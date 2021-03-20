@@ -1,0 +1,43 @@
+{
+  "name": "event-target-to-async-iter",
+  "version": "0.0.0",
+  "type": "module",
+  "main": "cjs/index.js",
+  "module": "index.js",
+  "files": [
+    "index*",
+    "cjs",
+    "tsconfig*.json"
+  ],
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "require": "./cjs/index.cjs"
+    }
+  },
+  "types": "./index.d.ts",
+  "scripts": {
+    "postinstall": "shx ls index.js >> /dev/null 2>&1 || npm run build",
+    "clean": "shx rm -rf *.d.ts *.js *.js.map *.d.ts.map cjs *.tgz",
+    "test": "echo \"Error: no test specified\" && exit 0",
+    "build": "npm run build:mjs & npm run build:cjs & wait",
+    "build:mjs": "tsc -d -p tsconfig.json",
+    "build:cjs": "tsc -p tsconfig.cjs.json && sed -i '' -E 's/\\.js/.cjs/g' cjs/*.js && for f in cjs/*.js; do mv \"$f\" \"${f%.js}.cjs\"; done",
+    "prepack": "npm run clean && npm run build"
+  },
+  "author": "Florian Klampfer <mail@qwtel.com> (https://qwtel.com/)",
+  "license": "MIT",
+  "devDependencies": {
+    "shx": "^0.3.3",
+    "typescript": "^4.1.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qwtel/event-target-to-async-iter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/qwtel/event-target-to-async-iter/issues"
+  },
+  "homepage": "https://github.com/qwtel/event-target-to-async-iter#readme",
+  "description": ""
+}

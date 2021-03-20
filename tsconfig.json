@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "lib": ["ES2020", "ES2018.AsyncIterable", "WebWorker"],
+    "target": "ES2018",
+    "strict": true,
+    "outDir": ".",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "inlineSources": true,
+  },
+  "include": [
+    "index.ts",
+  ],
+  "exclude": [],
+}
