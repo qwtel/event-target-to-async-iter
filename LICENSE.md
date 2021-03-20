@@ -1,6 +1,6 @@
 # The MIT License
 
-Copyright (c) 2020 Florian Klampfer <mail@qwtel.com> (https://qwtel.com/)
+Copyright (c) 2021 Florian Klampfer <mail@qwtel.com> (https://qwtel.com/)
 
 This software uses portions of the Node.js project,
 which is MIT licensed with the following copyright
