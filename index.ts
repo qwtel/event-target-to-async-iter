@@ -13,7 +13,7 @@ function newAbortError() {
  * 
  * Source: <https://github.com/nodejs/node/blob/master/lib/events.js#L774>
  */
-export function eventTargetToAsyncGen<E extends Event>(
+export function eventTargetToAsyncIter<E extends Event>(
   target: EventTarget, 
   event: string, 
   options?: { signal?: AbortSignal },
@@ -131,3 +131,5 @@ export function eventTargetToAsyncGen<E extends Event>(
     iterator.return();
   }
 }
+
+export { eventTargetToAsyncIter as eventTargetToAsyncGenerator }
