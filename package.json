@@ -1,6 +1,6 @@
 {
   "name": "event-target-to-async-iter",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "main": "cjs/index.js",
   "module": "index.js",
