@@ -39,5 +39,5 @@
     "url": "https://github.com/qwtel/event-target-to-async-iter/issues"
   },
   "homepage": "https://github.com/qwtel/event-target-to-async-iter#readme",
-  "description": ""
+  "description": "Takes an event target and an event name and turns it into an async iterable"
 }
