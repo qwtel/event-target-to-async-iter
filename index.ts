@@ -2,7 +2,7 @@ type Resolver<T> = (value: T | PromiseLike<T>) => void;
 type Rejecter = (reason?: any) => void;
 
 function newAbortError() {
-  return new DOMException('eventTargetToAsyncGen was aborted via AbortSignal', 'AbortError');
+  return new DOMException('eventTargetToAsyncIter was aborted via AbortSignal', 'AbortError');
 }
 
 /**
