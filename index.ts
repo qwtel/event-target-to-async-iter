@@ -5,6 +5,8 @@ function newAbortError() {
   return new DOMException('eventTargetToAsyncIter was aborted via AbortSignal', 'AbortError');
 }
 
+const AsyncIteratorPrototype = Object.getPrototypeOf(Object.getPrototypeOf(async function* () {}).prototype);
+
 /**
  * Takes an event target and an event name and turns it into an async iterable.
  * 
@@ -18,8 +20,8 @@ export function eventTargetToAsyncIter<E extends Event>(
   event: string, 
   options?: { signal?: AbortSignal },
 ): AsyncGenerator<E, void, unknown> {
-
   const signal = options?.signal;
+  // validateAbortSignal(signal, 'options.signal');
   if (signal?.aborted)
     throw newAbortError();
 
@@ -28,7 +30,7 @@ export function eventTargetToAsyncIter<E extends Event>(
   let error: any = null;
   let finished = false;
 
-  const iterator = {
+  const iterator = Object.setPrototypeOf({
     next(): Promise<IteratorResult<E, void>> {
       // First, we consume all unread events
       const value = unconsumedEvents.shift();
@@ -90,7 +92,7 @@ export function eventTargetToAsyncIter<E extends Event>(
     [Symbol.asyncIterator]() {
       return this;
     }
-  };
+  }, AsyncIteratorPrototype);
 
   target.addEventListener(event, eventHandler);
   if (event !== 'error') {
