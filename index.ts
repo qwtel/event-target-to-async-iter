@@ -7,6 +7,20 @@ function newAbortError() {
 
 const AsyncIteratorPrototype = Object.getPrototypeOf(Object.getPrototypeOf(async function* () {}).prototype);
 
+export interface EventTargetToAsyncIterOptions {
+  /**
+   * An abort signal to cancel async iteration.
+   */
+  signal?: AbortSignal,
+  
+  /**
+   * An event name that marks the end of the async iterable. 
+   * Note that this is a convenience option. 
+   * The same result can be achieved by calling `return()` on the async generator.
+   */
+  returnEvent?: string,
+}
+
 /**
  * Takes an event target and an event name and turns it into an async iterable.
  * 
@@ -16,21 +30,23 @@ const AsyncIteratorPrototype = Object.getPrototypeOf(Object.getPrototypeOf(async
  * Source: <https://github.com/nodejs/node/blob/master/lib/events.js#L774>
  */
 export function eventTargetToAsyncIter<E extends Event>(
-  target: EventTarget, 
-  event: string, 
-  options?: { signal?: AbortSignal },
+  target: EventTarget,
+  event: string,
+  options?: EventTargetToAsyncIterOptions,
 ): AsyncGenerator<E, void, unknown> {
   const signal = options?.signal;
   // validateAbortSignal(signal, 'options.signal');
   if (signal?.aborted)
     throw newAbortError();
 
+  const returnEvent = options?.returnEvent
+
   const unconsumedEvents: E[] = [];
   const unconsumedPromises: { resolve: Resolver<IteratorResult<E, void>>, reject: Rejecter }[] = [];
   let error: any = null;
   let finished = false;
 
-  const iterator = Object.setPrototypeOf({
+  const iterator = <AsyncGenerator<E, void, unknown>>Object.setPrototypeOf({
     next(): Promise<IteratorResult<E, void>> {
       // First, we consume all unread events
       const value = unconsumedEvents.shift();
@@ -62,6 +78,7 @@ export function eventTargetToAsyncIter<E extends Event>(
     return(): Promise<IteratorResult<E, void>> {
       target.removeEventListener(event, eventHandler);
       target.removeEventListener('error', errorHandler);
+      if (returnEvent) target.removeEventListener(returnEvent, returnHandler);
 
       if (signal) {
         signal.removeEventListener('abort', abortListener);
@@ -85,7 +102,6 @@ export function eventTargetToAsyncIter<E extends Event>(
       target.removeEventListener(event, eventHandler);
       target.removeEventListener('error', errorHandler);
 
-      // ??
       return Promise.reject(err)
     },
 
@@ -97,6 +113,9 @@ export function eventTargetToAsyncIter<E extends Event>(
   target.addEventListener(event, eventHandler);
   if (event !== 'error') {
     target.addEventListener('error', errorHandler);
+  }
+  if (returnEvent && event !== returnEvent) {
+    target.addEventListener(returnEvent, returnHandler)
   }
 
   if (signal) {
@@ -130,6 +149,10 @@ export function eventTargetToAsyncIter<E extends Event>(
       error = err;
     }
 
+    iterator.return();
+  }
+
+  function returnHandler() {
     iterator.return();
   }
 }
