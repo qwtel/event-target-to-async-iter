@@ -31,7 +31,7 @@ export interface EventTargetToAsyncIterOptions {
  * 
  * Source: <https://github.com/nodejs/node/blob/5b59e14dafb43b907e711cb418bb9c302bce2890/lib/events.js#L1017>
  */
-export function eventTargetToAsyncIter<E extends Event>(
+export function eventTargetToAsyncIterable<E extends Event>(
   target: EventTarget,
   event: string,
   options?: EventTargetToAsyncIterOptions,
@@ -159,4 +159,7 @@ export function eventTargetToAsyncIter<E extends Event>(
   }
 }
 
-export { eventTargetToAsyncIter as eventTargetToAsyncGenerator }
+export { 
+  eventTargetToAsyncIterable as eventTargetToAsyncIter,
+  eventTargetToAsyncIterable as eventTargetToAsyncGenerator,
+}
