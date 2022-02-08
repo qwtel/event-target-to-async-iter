@@ -24,10 +24,12 @@ export interface EventTargetToAsyncIterOptions {
 /**
  * Takes an event target and an event name and turns it into an async iterable.
  * 
- * Note that the async generator will not complete until either an abort controller aborts it,
- * or the `return` function is called.
+ * Note that the async iterable will not complete until either 
+ * - an abort controller aborts it,
+ * - the `return` function is called, or 
+ * - a `returnEvent` is provided and gets dispatched on the event target.
  * 
- * Source: <https://github.com/nodejs/node/blob/master/lib/events.js#L774>
+ * Source: <https://github.com/nodejs/node/blob/5b59e14dafb43b907e711cb418bb9c302bce2890/lib/events.js#L1017>
  */
 export function eventTargetToAsyncIter<E extends Event>(
   target: EventTarget,
