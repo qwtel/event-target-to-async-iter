@@ -2,34 +2,32 @@
   "name": "event-target-to-async-iter",
   "version": "0.1.1",
   "type": "module",
-  "main": "cjs/index.js",
-  "module": "index.js",
-  "files": [
-    "index*",
-    "cjs",
-    "tsconfig*.json"
-  ],
+  "source": "src/index.ts",   
   "exports": {
-    ".": {
-      "import": "./index.js",
-      "require": "./cjs/index.cjs"
-    }
+    "require": "./dist/index.cjs",
+    "default": "./dist/index.modern.js"
   },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.module.js",
+  "unpkg": "./dist/index.umd.js",
+  "files": [
+    "src",
+    "dist",
+    "tsconfig.json"
+  ],
   "types": "./index.d.ts",
   "scripts": {
-    "postinstall": "shx ls index.js >> /dev/null 2>&1 || npm run build",
-    "clean": "shx rm -rf *.d.ts *.js *.js.map *.d.ts.map cjs *.tgz",
+    "clean": "shx rm -rf dist index.d.ts* *.tgz",
     "test": "echo \"Error: no test specified\" && exit 0",
-    "build": "npm run build:mjs & npm run build:cjs & wait",
-    "build:mjs": "tsc -d -p tsconfig.json",
-    "build:cjs": "tsc -p tsconfig.cjs.json && sed -i '' -E 's/\\.js/.cjs/g' cjs/*.js && for f in cjs/*.js; do mv \"$f\" \"${f%.js}.cjs\"; done",
+    "build": "microbundle",
+    "dev": "microbundle watch",
     "prepack": "npm run clean && npm run build"
   },
   "author": "Florian Klampfer <mail@qwtel.com> (https://qwtel.com/)",
   "license": "MIT",
   "devDependencies": {
-    "shx": "^0.3.4",
-    "typescript": "^4.5.5"
+    "microbundle": "^0.14.2",
+    "shx": "^0.3.4"
   },
   "repository": {
     "type": "git",
