@@ -10,7 +10,7 @@
     "inlineSources": true,
   },
   "include": [
-    "src/index.ts",
+    "index.ts",
   ],
   "exclude": [],
 }

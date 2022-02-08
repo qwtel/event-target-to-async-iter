@@ -2,32 +2,34 @@
   "name": "event-target-to-async-iter",
   "version": "0.2.0",
   "type": "module",
-  "source": "src/index.ts",
-  "exports": {
-    "require": "./dist/index.cjs",
-    "default": "./dist/index.modern.js"
-  },
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.module.js",
-  "unpkg": "./dist/index.umd.js",
+  "main": "cjs/index.js",
+  "module": "index.js",
   "files": [
-    "src",
-    "dist",
-    "tsconfig.json"
+    "index*",
+    "cjs",
+    "tsconfig*.json"
   ],
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "require": "./cjs/index.cjs"
+    }
+  },
   "types": "./index.d.ts",
   "scripts": {
-    "clean": "shx rm -rf dist index.d.ts* *.tgz",
+    "postinstall": "shx ls index.js >> /dev/null 2>&1 || npm run build",
+    "clean": "shx rm -rf *.d.ts *.js *.js.map *.d.ts.map cjs *.tgz",
     "test": "echo \"Error: no test specified\" && exit 0",
-    "build": "microbundle",
-    "dev": "microbundle watch",
+    "build": "npm run build:mjs & npm run build:cjs & wait",
+    "build:mjs": "tsc -d -p tsconfig.json",
+    "build:cjs": "tsc -p tsconfig.cjs.json && sed -i '' -E 's/\\.js/.cjs/g' cjs/*.js && for f in cjs/*.js; do mv \"$f\" \"${f%.js}.cjs\"; done",
     "prepack": "npm run clean && npm run build"
   },
   "author": "Florian Klampfer <mail@qwtel.com> (https://qwtel.com/)",
   "license": "MIT",
   "devDependencies": {
-    "microbundle": "^0.14.2",
-    "shx": "^0.3.4"
+    "shx": "^0.3.4",
+    "typescript": "^4.5.5"
   },
   "repository": {
     "type": "git",
