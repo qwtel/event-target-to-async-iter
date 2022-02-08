@@ -1,8 +1,8 @@
 {
   "name": "event-target-to-async-iter",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "type": "module",
-  "source": "src/index.ts",   
+  "source": "src/index.ts",
   "exports": {
     "require": "./dist/index.cjs",
     "default": "./dist/index.modern.js"
