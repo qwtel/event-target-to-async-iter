@@ -2,11 +2,6 @@
 
 Copyright (c) 2021 Florian Klampfer <mail@qwtel.com> (https://qwtel.com/)
 
-This software uses portions of the Node.js project,
-which is MIT licensed with the following copyright
-
-> Copyright Joyent, Inc. and other Node contributors.
-
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -24,3 +19,8 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+This software uses portions of the Node.js project,
+which is MIT licensed with the following copyright
+
+> Copyright Joyent, Inc. and other Node contributors.
