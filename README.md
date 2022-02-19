@@ -33,7 +33,7 @@ const target = new EventTarget();
 const iter = eventTargetToAsyncIter(target, 'data');
 
 // Helper function that consumes a readable stream
-async function swallow(stream) {
+async function consume(stream) {
   const reader = stream.getReader();
   while (await reader.read().then(x => !x.done)) {}
 }
@@ -49,7 +49,7 @@ const response = new HTMLRewriter()
   .transform(await fetch('https://news.ycombinator.com'));
 
 // No await here
-swallow(response.body)
+consume(response.body)
   .then(() => iter.return()) // Don't create an endless loop
   .catch(e => iter.throw(e)) // Don't swallow errors
 
